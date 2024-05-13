@@ -106,8 +106,16 @@ ENV V_RISING_SERVER_GAME_DISABLE_DECAY       false
 ENV CHOWN_DIRS "/steamcmd,/app,/dev/stdout,/dev/stderr"
 #ENV CHOWN_DIRS "/steamcmd,/app,\${V_RISING_SERVER_PERSISTENT_DATA_PATH},/dev/stdout,/dev/stderr"
 
+RUN apt-get upgrade
+
+RUN curl -SsL https://playit-cloud.github.io/ppa/key.gpg | gpg --dearmor | tee /etc/apt/trusted.gpg.d/playit.gpg >/dev/null
+RUN echo "deb [signed-by=/etc/apt/trusted.gpg.d/playit.gpg] https://playit-cloud.github.io/ppa/data ./" | tee /etc/apt/sources.list.d/playit-cloud.list
+RUN apt update
+RUN apt install playit
+
+
 # Expose the volumes
 VOLUME [ "/steamcmd/vrising", "/app/vrising" ]
 
 # Start the server
-CMD [ "bash", "/app/start.sh" ]
+CMD [ "bash", "/app/start.sh && /usr/local/bin/playit" ]
