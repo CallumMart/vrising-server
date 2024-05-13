@@ -4,7 +4,7 @@ services:
   vrising:
 
     # image: didstopia/vrising-server:latest
-    build: .
+    iamge: v-rising/server:1.0
     container_name: vrising
     # restart: unless-stopped
     restart: "no"
